@@ -86,7 +86,7 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
 }
 nav ul {
 	display: flex;
@@ -106,7 +106,7 @@ li:hover {
 	align-items: center;
 }
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
 #introduction img {
 	display: block;
@@ -115,7 +115,7 @@ li:hover {
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -230,4 +230,31 @@ footer nav ul {
 }
 #header-login{
 	margin-bottom: 0;
+}
+
+#filters-container{
+	margin: 3rem;
+	gap: 10px;
+	display: flex;
+	justify-content: center;
+}
+.filters{
+	height: 2rem;
+	background-color: transparent;
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 16px;
+	color: #1D6154;
+	padding: 0 15px;
+}
+.filters:hover{
+	cursor: pointer;
+	color: white;
+	background-color: #1D6154;
+}
+.active{
+	color: white;
+	background-color: #1D6154;
 }

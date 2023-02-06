@@ -1,9 +1,8 @@
 // Déclaration de fonction qui permet de générer les travaux 
-let allWorks;
-function generateWorks(allWorks) {
-    for (let i = 0; i < allWorks.length; i++) {
+function generateWorks(getWorks) {
+    for (let i = 0; i < getWorks.length; i++) {
 
-        const works = allWorks[i];
+        const works = getWorks[i];
         // Sélectionner la div gallerie qui accueillera les travaux
         const portfolioWorks = document.querySelector(".gallery");
 
@@ -25,12 +24,47 @@ function generateWorks(allWorks) {
         workElement.appendChild(imageElement);
         workElement.appendChild(titleElement);
     }
-}
+};
 
 // Récuperation des travaux depuis l'API
-fetch('http://localhost:5678/api/works')
-  .then(response => response.json())
-  .then(allWorks => {
+const allWorks = fetch('http://localhost:5678/api/works')
+.then(response => response.json())
+.then(allWorks => {
     generateWorks(allWorks);
-  });
+});
+
+// Filtrage des travaux
+const all = fetch('http://localhost:5678/api/works')
+.then(response => response.json())
+.then(all => {
+    const buttonObjects = document.getElementById("objects-filter");
+    buttonObjects.addEventListener("click", function () {
+        const showObjects = all.filter(work => work.category.id === 1);
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(showObjects);
+    });
+
+
+    const buttonApartmets = document.getElementById("apartmets-filter");
+    buttonApartmets.addEventListener("click", function () {
+        const showApartmets = all.filter(work => work.category.id === 2);
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(showApartmets);
+    });
+
+
+    const buttonHotels = document.getElementById("hotels-filter");
+    buttonHotels.addEventListener("click", function () {
+        const showHotels = all.filter(work => work.category.id === 3);
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(showHotels);
+    });
+
+
+    const buttonAllWorks = document.getElementById("all-filter");
+    buttonAllWorks.addEventListener("click", function () {
+        document.querySelector(".gallery").innerHTML = "";
+        generateWorks(all);
+    });
+});
 
