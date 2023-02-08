@@ -1,23 +1,43 @@
-// Déclaration de fonction qui permet de générer les travaux 
-function generateWorks(getWorks) {
-    for (let i = 0; i < getWorks.length; i++) {
+// Déclaration des chemins vers l'API
+const PATH_API = 'http://localhost:5678/api/';
+const PATH_WORKS = 'works';
+const PATH_CATEGORIES = 'categories';
 
-        const works = getWorks[i];
+// Récuperation des données de l'API
+const getWorks = () => {
+    return fetch( PATH_API + PATH_WORKS , { method: 'GET' })
+        .then((response) => response.json())
+        .then((datas) => { return datas; })
+        .catch((error) => { console.log( error ) });
+};
+
+const getCategories = () => {
+    return fetch( PATH_API + PATH_CATEGORIES , { method: 'GET' })
+        .then((response) => response.json())
+        .then((datas) => { return datas; })
+        .catch((error) => { console.log( error ) });
+};
+
+// Déclaration de fonction qui permet de générer les travaux 
+function generateWorks(allWorks) {
+    for (let i = 0; i < allWorks.length; i++) {
+        const works = allWorks[i];
+
         // Sélectionner la div gallerie qui accueillera les travaux
         const portfolioWorks = document.querySelector(".gallery");
 
         // Créer l'élément figure pour les travaux
-        const workElement = document.createElement("figure");
-        workElement.dataset.id = works.id;
+        let workElement = document.createElement("figure");
+            workElement.dataset.id = works.id;
 
         // Créeer l'image
         const imageElement = document.createElement("img");
-        imageElement.src = works.imageUrl;
-        imageElement.crossOrigin = "anonymous";     // Résolution de l'erreur CORP
+            imageElement.src = works.imageUrl;
+            imageElement.crossOrigin = "anonymous";     // Résolution de l'erreur CORP
 
         // Créer le légende
         const titleElement = document.createElement("figcaption");
-        titleElement.innerText = works.title;
+            titleElement.innerText = works.title;
 
         // Rattachement des balises
         portfolioWorks.appendChild(workElement);
@@ -26,45 +46,63 @@ function generateWorks(getWorks) {
     }
 };
 
-// Récuperation des travaux depuis l'API
-const allWorks = fetch('http://localhost:5678/api/works')
-.then(response => response.json())
-.then(allWorks => {
-    generateWorks(allWorks);
+// Affichage des travaux 
+getWorks().then(allWorks => generateWorks(allWorks));
+
+
+
+
+// Création de la div conteneur pour les filtres
+const portfolioWorkss = document.querySelector(".gallery");
+const filtersSection = document.createElement("div");
+filtersSection.classList.add("filters-container");
+portfolioWorkss.before(filtersSection);
+
+// Création du bouton "Tous"
+const buttonAllWorks = document.createElement("button");
+    buttonAllWorks.innerText = "Tous";
+    buttonAllWorks.classList.add("filters");
+    buttonAllWorks.classList.add("active");
+
+filtersSection.appendChild(buttonAllWorks);
+
+buttonAllWorks.addEventListener("click", function(){
+    document.querySelector(".gallery").innerHTML = "";
+    getWorks().then(allWorks => generateWorks(allWorks));
 });
 
-// Filtrage des travaux
-const all = fetch('http://localhost:5678/api/works')
-.then(response => response.json())
-.then(all => {
-    const buttonObjects = document.getElementById("objects-filter");
-    buttonObjects.addEventListener("click", function () {
-        const showObjects = all.filter(work => work.category.id === 1);
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(showObjects);
-    });
+// Déclaration de la fonction pour générer les boutons des catégories
+function generateButtons(allButtons) {
+    for (let i = 0; i < allButtons.length; i++) {
+        const buttons = allButtons[i];
 
+        let buttonElement = document.createElement("button");
+        buttonElement.dataset.id = buttons.id;
+        buttonElement.innerText = buttons.name;
+        buttonElement.classList.add('filters');
+        
+        filtersSection.appendChild(buttonElement);
 
-    const buttonApartmets = document.getElementById("apartmets-filter");
-    buttonApartmets.addEventListener("click", function () {
-        const showApartmets = all.filter(work => work.category.id === 2);
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(showApartmets);
-    });
+        buttonElement.addEventListener("click", function() {
+            document.querySelector(".gallery").innerHTML = "";
+            getWorks().then(allWorks => {
+                const worksForCategory = allWorks.filter(work => work.category.id == buttonElement.dataset.id);
+                generateWorks(worksForCategory);
+            });
+        });
+    };
+};
 
+// Affichage des catégories et travaux filtrés
+getCategories().then(allButtons => generateButtons(allButtons));
 
-    const buttonHotels = document.getElementById("hotels-filter");
-    buttonHotels.addEventListener("click", function () {
-        const showHotels = all.filter(work => work.category.id === 3);
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(showHotels);
-    });
-
-
-    const buttonAllWorks = document.getElementById("all-filter");
-    buttonAllWorks.addEventListener("click", function () {
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(all);
-    });
+// Afficher le bouton "enclenché"
+filtersSection.addEventListener("click", function(btn) {
+    if (btn.target.classList.contains("active")) {
+        return;
+    }
+    if (document.querySelector(".filters-container button.active") !== null) {
+        document.querySelector(".filters-container button.active").classList.remove("active");
+    }
+    btn.target.classList.add("active")
 });
-
