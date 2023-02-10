@@ -33,7 +33,6 @@ function generateWorks(allWorks) {
         // Créeer l'image
         const imageElement = document.createElement("img");
             imageElement.src = works.imageUrl;
-            imageElement.crossOrigin = "anonymous";     // Résolution de l'erreur CORP
 
         // Créer le légende
         const titleElement = document.createElement("figcaption");
