@@ -18,6 +18,22 @@ const getCategories = () => {
         .catch((error) => { console.log( error ) });
 };
 
+let userLogInToken = window.sessionStorage.getItem("loggedUser");
+
+if (userLogInToken !== null ) {
+    userLogInToken = JSON.parse(userLogInToken);
+    
+    const logInLogOut = document.getElementById("login-logout");
+    logInLogOut.innerText = "logout";
+
+    logInLogOut.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.sessionStorage.removeItem("loggedUser");
+        window.location.reload();
+    });
+};
+
+
 // Déclaration de fonction qui permet de générer les travaux 
 function generateWorks(allWorks) {
     for (let i = 0; i < allWorks.length; i++) {
