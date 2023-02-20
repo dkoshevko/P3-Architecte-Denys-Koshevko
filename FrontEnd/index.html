@@ -7,6 +7,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/042d4f2146.js" crossorigin="anonymous"></script>   <!-- Bibliothèque FontAwesome -->
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -35,8 +36,12 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<a href="#modal1" id="change-works-btn" class="js-modal" style="display: none;">Modifier</a>
+		<div class="change-title">
+			<h2>Mes Projets</h2>
+			<div id="change-works-btn" class="js-modal" style="display: none;">
+				<a href="#modal1"><i class="fa-regular fa-pen-to-square"></i> modifier</a>
+			</div>
+		</div>
 		<div class="gallery">
 					<!-- Génération des travaux via l'API et /index.js -->
 		</div>
@@ -56,12 +61,46 @@
 	</section>
 </main>
 <aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="title-modal" style="display: none;">
-	<div class="modal-wrapper js-modal-stop">
-		<button class="js-modal-close">Fermer la boite modale</button>
-		<h3 id="title-modal">Galerie photo</h3>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam optio harum nostrum adipisci voluptatum modi corporis deserunt, dolorem blanditiis quis architecto dolorum numquam saepe in asperiores velit similique a eaque! Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor ad iure repellat id et molestiae labore libero nobis aliquam, dicta dolores fugiat, quaerat adipisci quidem vitae vero nam, magni cum! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe dolore dignissimos sed nostrum unde repellat deleniti ducimus adipisci, ipsam odio fugiat delectus ipsa! Expedita eligendi, similique optio cupiditate rem molestiae!</p>
+	<div class="modal-wrapper js-modal-stop" id="modal-wrapper-gallery">
+		<div class="modal-navigation">
+			<div class="js-modal-return modal-return-btn" style="visibility: hidden;">
+				<i class="fa-solid fa-arrow-left"></i>
+				<p>Retour</p>
+			</div>
+			<div class="js-modal-close modal-close-btn">
+				<i class="fa-solid fa-xmark"></i>
+				<p>Fermer la boite modale</p>
+			</div>
+		</div>
+		<h3 class="title-modal">Galerie photo</h3>
+		<div id="modal-gallery">
+			<!-- Génération des travaux via l'API et /index.js -->
+		</div>
 		<input type="submit" value="Ajouter une photo">
 		<a href="" id="delete-modal-btn">Supprimer la galerie</a>
+	</div>
+	<div class="modal-wrapper js-modal-stop" id="modal-wrapper-add-work" style="display: none;">		<!--AJOUT WORKS-->
+		<div class="modal-navigation">
+			<div class="js-modal-return modal-return-btn">
+				<i class="fa-solid fa-arrow-left"></i>
+				<p>Retour</p>
+			</div>
+			<div class="js-modal-close modal-close-btn">
+				<i class="fa-solid fa-xmark"></i>
+				<p>Fermer la boite modale</p>
+			</div>
+		</div>
+		<h3 class="title-modal">Ajout photo</h3>
+		<div id="modal-add-work">
+			<form method="post">
+				<input type="file">
+				<label for="work-title">Titre</label>
+				<input type="text" name="work-title" id="work-title">
+				<label for="categories">Catégorie</label>
+				<select name="categories" id="select-categories"></select>
+				<input type="submit" value="Valider">
+			</form>
+		</div>
 	</div>
 </aside>
 <footer>

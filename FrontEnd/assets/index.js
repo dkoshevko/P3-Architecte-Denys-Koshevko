@@ -198,3 +198,37 @@ window.addEventListener('keydown', function (e) {
         focusInModal(e);
     };
 });
+
+function generateWorksModal(allWorks) {
+    for (let i = 0; i < allWorks.length; i++) {
+        const works = allWorks[i];
+
+        // Sélectionner la div gallerie qui accueillera les travaux
+        const portfolioWorks = document.querySelector("#modal-gallery");
+
+        // Créer l'élément figure pour les travaux
+        let workElement = document.createElement("div");
+            workElement.dataset.id = works.id;
+            workElement.classList.add("miniature-works");
+
+        // Créeer l'image
+        const imageElement = document.createElement("img");
+            imageElement.src = works.imageUrl;
+
+        // Créer l'icone poubelle
+        const trashcanElement = document.createElement("img");
+            trashcanElement.src = "/FrontEnd/assets/icons/trash-can-solid.svg";
+            trashcanElement.classList.add("trashcan");
+
+        // Créer le légende
+        const titleElement = document.createElement("p");
+            titleElement.innerText = "éditer";
+
+        // Rattachement des balises
+        portfolioWorks.appendChild(workElement);
+        workElement.appendChild(imageElement);
+        workElement.appendChild(trashcanElement);
+        workElement.appendChild(titleElement);
+    }
+};
+getWorks().then(allWorks => generateWorksModal(allWorks));

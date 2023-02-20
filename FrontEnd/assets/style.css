@@ -266,6 +266,18 @@ footer nav ul {
 	background-color: #1D6154;
 }
 
+.change-title{
+	position: relative;
+}
+#change-works-btn{
+	position: absolute;
+	top: 10px;
+	right: 30%;
+}
+.fa-regular{
+	font-size: 1em;
+	color: #000000;
+}
 .modal{
 	position: fixed;
 	display: flex;
@@ -279,17 +291,79 @@ footer nav ul {
 	animation: fadeIn .5s both;
 }
 .modal-wrapper{
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	width: 600px;
 	max-width: calc(100vw - 20px);
 	max-height: calc(100vh - 20px);
 	padding: 20px;
 	background-color: #fff;
+	border-radius: 10px;
 }
 .modal[aria-hidden="true"]{
 	animation-name: fadeOut;
 }
-
+.modal-wrapper input{
+	align-self: center;
+	width: 250px;
+	height: 40px;
+	font-size: 1em;
+	font-weight: 700;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.modal-navigation{
+	display: flex;
+	justify-content: space-between;
+}
+.modal-close-btn p{
+	display: none;
+}
+.modal-return-btn p{
+	display: none;
+}
+.fa-solid{
+	cursor: pointer;
+	font-size: 1.6em;
+}
+.title-modal{
+	align-self: center;
+	font-size: 1.8em;
+	margin-bottom: 30px;
+}
+#delete-modal-btn{
+	align-self: center;
+	font-family: 'Syne';
+	font-weight: 400;
+	color: #D65353;
+	margin-bottom: 20px;
+}
+#modal-gallery{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	gap: 5px;
+	margin: 0 100px;
+	padding-bottom: 40px;
+	border-bottom: 1px solid #B3B3B3;
+}
+#modal-gallery img{
+	width: 100%;
+}
+.miniature-works{
+	position: relative;
+}
+.trashcan{
+	cursor: pointer;
+	filter: invert(100%);
+	background-color: #fff;
+	padding: 3px;
+	border-radius: 2px;
+	position: absolute;
+	width: 10% !important;
+	right: 5px;
+	top: 5px;
+}
 @keyframes fadeIn {
 	from { opacity: 0; }
 	to { opacity: 1; }
