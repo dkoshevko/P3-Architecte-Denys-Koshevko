@@ -45,11 +45,12 @@ if (userLogInToken !== null ) {
 
 // Déclaration de fonction qui permet de générer les travaux 
 function generateWorks(allWorks) {
+    // Sélectionner la div gallerie qui accueillera les travaux
+    const portfolioWorks = document.querySelector(".gallery");
+    portfolioWorks.innerHTML = "";
+
     for (let i = 0; i < allWorks.length; i++) {
         const works = allWorks[i];
-
-        // Sélectionner la div gallerie qui accueillera les travaux
-        const portfolioWorks = document.querySelector(".gallery");
 
         // Créer l'élément figure pour les travaux
         let workElement = document.createElement("figure");
@@ -141,7 +142,10 @@ let focusables = [];
 
 const openModal = function (e) {
     e.preventDefault();
-    modal = document.querySelector(e.target.getAttribute('href'));
+    const target = e.target.getAttribute('href');
+    if (target.startsWith('#')) {
+        modal = document.querySelector(target)
+    };
     focusables = Array.from(modal.querySelectorAll(focusableSelector));
     modal.style.display = null;
     modal.removeAttribute('aria-hidden');
@@ -149,20 +153,30 @@ const openModal = function (e) {
     modal.addEventListener('click', closeModal);
     modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+    getWorks().then(allWorks => generateWorksModal(allWorks));
 };
 
 const closeModal = function (e) {
     if (modal === null) return;
     e.preventDefault();
-    window.setTimeout(function () {
-        modal.style.display = "none";
-        modal = null;
-    }, 500);
+    // window.setTimeout(function () {
+    //     modal.style.display = "none";
+    //     modal = null;
+    // }, 500);
     modal.setAttribute('aria-hidden', 'true');
     modal.removeAttribute('aria-modal');
     modal.removeEventListener('click', closeModal);
     modal.querySelector('.js-modal-close').removeEventListener('click', closeModal);
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
+
+    const hideModal = function () {
+        modal.style.display = 'none'
+        modal.removeEventListener('animationend', hideModal)
+        modal = null
+    };
+    modal.addEventListener('animationend', hideModal);
+
+    getWorks().then(allWorks => generateWorks(allWorks));
 };
 
 const stopPropagation = function (e) {
@@ -199,12 +213,33 @@ window.addEventListener('keydown', function (e) {
     };
 });
 
+
+
+function deleteWorks(id) {
+    fetch(`http://localhost:5678/api/works/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${userLogInToken.token}`,
+            'Content-Type': 'application/json'
+        },
+    })		
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((error) => {
+        console.log( error )
+    });
+    return false;
+};
+
 function generateWorksModal(allWorks) {
+    // Sélectionner la div gallerie qui accueillera les travaux
+    const portfolioWorks = document.querySelector("#modal-gallery");
+    portfolioWorks.innerHTML = "";
+
     for (let i = 0; i < allWorks.length; i++) {
         const works = allWorks[i];
-
-        // Sélectionner la div gallerie qui accueillera les travaux
-        const portfolioWorks = document.querySelector("#modal-gallery");
 
         // Créer l'élément figure pour les travaux
         let workElement = document.createElement("div");
@@ -219,16 +254,30 @@ function generateWorksModal(allWorks) {
         const trashcanElement = document.createElement("img");
             trashcanElement.src = "/FrontEnd/assets/icons/trash-can-solid.svg";
             trashcanElement.classList.add("trashcan");
+            trashcanElement.dataset.id = works.id;
+            // trashcanElement.addEventListener('click', deleteWorks(works.id));
 
-        // Créer le légende
-        const titleElement = document.createElement("p");
+            // Créer le légende
+            const titleElement = document.createElement("p");
             titleElement.innerText = "éditer";
-
-        // Rattachement des balises
-        portfolioWorks.appendChild(workElement);
-        workElement.appendChild(imageElement);
-        workElement.appendChild(trashcanElement);
-        workElement.appendChild(titleElement);
+            
+            // Rattachement des balises
+            portfolioWorks.appendChild(workElement);
+            workElement.appendChild(imageElement);
+            workElement.appendChild(trashcanElement);
+            workElement.appendChild(titleElement);
     }
+
+    let trashes = document.querySelectorAll(".trashcan");
+
+    trashes.forEach(function(item) {
+    item.addEventListener('click', () => {
+        deleteWorks(item.dataset.id)
+    })
+    });
 };
-getWorks().then(allWorks => generateWorksModal(allWorks));
+
+
+
+
+
