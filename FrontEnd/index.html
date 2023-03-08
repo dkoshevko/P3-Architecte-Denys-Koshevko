@@ -38,9 +38,8 @@
 	<section id="portfolio">
 		<div class="change-title">
 			<h2>Mes Projets</h2>
-			<div id="change-works-btn" class="js-modal" style="display: none;">
-				<a href="#modal1"><i class="fa-regular fa-pen-to-square"></i> modifier</a>
-			</div>
+			<a id="change-works-btn" href="#modal1" class="js-modal" style="display: none;">
+				<i class="fa-regular fa-pen-to-square"></i> modifier</a>
 		</div>
 		<div class="gallery">
 					<!-- Génération des travaux via l'API et /index.js -->
@@ -76,29 +75,36 @@
 		<div id="modal-gallery">
 			<!-- Génération des travaux via l'API et /index.js -->
 		</div>
-		<input type="submit" value="Ajouter une photo">
+		<input type="submit" value="Ajouter une photo" id="add-work-btn">
 		<a href="" id="delete-modal-btn">Supprimer la galerie</a>
 	</div>
 	<div class="modal-wrapper js-modal-stop" id="modal-wrapper-add-work" style="display: none;">		<!--AJOUT WORKS-->
 		<div class="modal-navigation">
-			<div class="js-modal-return modal-return-btn">
+			<div class="js-modal-return modal-return-btn" id="return-btn">
 				<i class="fa-solid fa-arrow-left"></i>
 				<p>Retour</p>
 			</div>
-			<div class="js-modal-close modal-close-btn">
+			<div class="js-modal-close modal-close-btn" id="close-btn">
 				<i class="fa-solid fa-xmark"></i>
 				<p>Fermer la boite modale</p>
 			</div>
 		</div>
 		<h3 class="title-modal">Ajout photo</h3>
 		<div id="modal-add-work">
-			<form method="post">
-				<input type="file">
+			<form id="add-work-form">
+				<div id="custom-image-upload">
+					<i class="fa-regular fa-image"></i>
+					<label for="work-image">+ Ajouter photo</label>
+					<input type="file" accept="images" id="work-image" name="work-image">
+					<p>jpg, png : 4mo max</p>
+					<img id="output-image" style="display: none;">
+				</div>
 				<label for="work-title">Titre</label>
 				<input type="text" name="work-title" id="work-title">
 				<label for="categories">Catégorie</label>
 				<select name="categories" id="select-categories"></select>
-				<input type="submit" value="Valider">
+				<hr id="separation-line">
+				<input type="submit" value="Valider" id="submit-new-work">
 			</form>
 		</div>
 	</div>

@@ -304,7 +304,7 @@ footer nav ul {
 .modal[aria-hidden="true"]{
 	animation-name: fadeOut;
 }
-.modal-wrapper input{
+.modal-wrapper input[type="submit"]{
 	align-self: center;
 	width: 250px;
 	height: 40px;
@@ -363,6 +363,79 @@ footer nav ul {
 	width: 10% !important;
 	right: 5px;
 	top: 5px;
+}
+#add-work-form{
+	display: flex;
+	flex-direction: column;
+	margin: 0 100px;
+}
+#separation-line{
+	width: 100%;
+	height: 1px;
+	background-color: #B3B3B3;
+	border: none;
+}
+#custom-image-upload{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 170px;
+	background-color: #E8F1F6;
+	border-radius: 3px;
+	margin-bottom: 30px;
+}
+#custom-image-upload label{
+	cursor: pointer;
+	background-color: #CBD6DC;
+	border-radius: 50px;
+	color: #306685;
+	padding: 10px 30px;
+	margin: 20px 0 5px 0 !important;
+}
+#custom-image-upload label:hover{
+	background-color: #306685;
+	color: #CBD6DC;
+}
+#custom-image-upload input{
+	display: none;
+}
+#output-image{
+	position: absolute;
+	height: 100%;
+	object-fit: cover;
+	padding: 0 50px;
+	background-color: #E8F1F6;
+}
+#custom-image-upload p{
+	font-size: 10px;
+	font-weight: 400;
+	color: #444444;
+}
+.fa-image{
+	font-size: 5em;
+	color: #B9C5CC;
+}
+#add-work-form label{
+	margin-bottom: 10px;
+}
+#add-work-form input[type="text"], select{
+	width: 100%;
+	height: 50px;
+	padding: 0;
+	margin-bottom: 20px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	background-color: #fff;
+}
+#add-work-form select{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url("/FrontEnd/assets/icons/down-arrow-icon.png") 96% / 5% no-repeat;
 }
 @keyframes fadeIn {
 	from { opacity: 0; }
