@@ -33,7 +33,7 @@ const initialize = async () => {
 };
 
 // Vérification si l'utilisateur est autentifié en tant qu'administrateur
-let userLogInToken = window.sessionStorage.getItem("loggedUser");
+let userLogInToken = window.sessionStorage.getItem('loggedUser');
 const checkLogin = () => {
 
     if (userLogInToken !== null ) {
@@ -325,6 +325,7 @@ const returnModalBtn = document.getElementById('return-btn');
 returnModalBtn.addEventListener('click', function() {
     addWorkModal.style.display = 'none';
     galleryModal.style.display = null;
+    resetForm();
 });
 
 const closeModalBtn = document.getElementById('close-btn');
@@ -344,12 +345,12 @@ let newWorkImage = document.querySelector('#work-image');
 let newWorkTitle = document.querySelector('#work-title');
 let newWorkCategory = document.querySelector('#select-categories');
 
-addWorkForm.addEventListener('submit', async function(e) {
+addWorkForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const dataForm = new FormData();
+    let dataForm = new FormData();
 
-    dataForm.append('image', newWorkImage.files[0], newWorkImage.files[0].name);
+    dataForm.append('image', newWorkImage.files[0]);
     dataForm.append('title', newWorkTitle.value);
     dataForm.append('category', newWorkCategory.value);
 
@@ -357,16 +358,15 @@ addWorkForm.addEventListener('submit', async function(e) {
 
     if (newWorkImage.files[0] && newWorkTitle.value && newWorkCategory.value){
 
-        await fetch('http://localhost:5678/api/works', {
+        fetch('http://localhost:5678/api/works', {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data',
+				'Accept': 'application/json, text/plain, */*',
                 'Authorization': `Bearer ${userLogInToken.token}`
             },
             body: dataForm,
         })
-        .then((response) => response.json())
-        .then((data) => { return data; })
+        .then((data) => { return data })
         .catch((error) => { console.log( error ) });
 
         alert("Vous avez ajouté une photo");
@@ -381,6 +381,7 @@ addWorkForm.addEventListener('submit', async function(e) {
         return;
     }
 });
+
 
 // Prévisualisation de l'image à télécharger
 let outputImagePreview = document.getElementById('output-image');
