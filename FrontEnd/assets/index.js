@@ -386,7 +386,7 @@ const generateWorkElementsInModal = (works) => {
 
     // Créer l'icone poubelle
     const trashcanElement = document.createElement('img');
-    trashcanElement.src = '/FrontEnd/assets/icons/trash-can-solid.svg';
+    trashcanElement.src = '/Users/deniskoshevko/Desktop/P3 Portfolio Architecte/Portfolio-architecte-sophie-bluel-master/FrontEnd/assets/icons/trash-can-solid.svg';
     trashcanElement.classList.add('trashcan');
     trashcanElement.dataset.id = works.id;
 
