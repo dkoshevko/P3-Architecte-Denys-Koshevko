@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	position: relative;
 }
 ol, ul {
 	list-style: none;
@@ -439,11 +440,16 @@ footer nav ul {
 }
 
 .headband{
+	position: fixed;
+	width: 100vw;
+	top: 0px;
+	left: 0px;
 	background-color: #000000;
 	height: 60px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 10;
 }
 .edition-mode{
 	cursor: pointer;

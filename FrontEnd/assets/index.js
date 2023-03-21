@@ -186,6 +186,7 @@ const initButtons = async () => {
 // Création du bandeau noir "mode édition"
 const editModeBlackBand = () => {
     const header = document.querySelector('header');
+    header.style.marginTop = '110px';
 
     const headband = document.createElement('div');
     headband.classList.add('headband');
