@@ -356,14 +356,20 @@ footer nav ul {
 }
 .trashcan{
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	filter: invert(100%);
 	background-color: #fff;
-	padding: 3px;
+	padding: 3px 5px;
 	border-radius: 2px;
 	position: absolute;
 	width: 10% !important;
 	right: 5px;
 	top: 5px;
+}
+.fa-trash-can{
+	font-size: 0.7rem;
 }
 #add-work-form{
 	display: flex;

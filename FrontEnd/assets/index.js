@@ -386,9 +386,11 @@ const generateWorkElementsInModal = (works) => {
     imageElement.src = works.imageUrl;
 
     // Créer l'icone poubelle
-    const trashcanElement = document.createElement('img');
-    trashcanElement.src = '/Users/deniskoshevko/Desktop/P3 Portfolio Architecte/Portfolio-architecte-sophie-bluel-master/FrontEnd/assets/icons/trash-can-solid.svg';
+    const trashcanElement = document.createElement('i');
+    // trashcanElement.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;     //La poubelle n'est pas clickable avec cette méthode
     trashcanElement.classList.add('trashcan');
+    trashcanElement.classList.add('fa-solid');
+    trashcanElement.classList.add('fa-trash-can');
     trashcanElement.dataset.id = works.id;
 
     // Créer la légende
@@ -466,57 +468,97 @@ let newWorkImage = document.querySelector('#work-image');
 let newWorkTitle = document.querySelector('#work-title');
 let newWorkCategory = document.querySelector('#select-categories');
 
+// Vérification du type de fichier
+const validateFileType = (file) => {
+    const acceptedExtensions = ['.jpg', '.png'];
+    const fileName = file.name.toLowerCase();
+    const fileExtension = fileName.substring(fileName.lastIndexOf('.'));
+
+    return acceptedExtensions.includes(fileExtension);
+};
+
+// Vérification de la taille de fichier
+const validateFileSize = (file) => {
+    const maxFileSize = 4 * 1024 * 1024; // 4 Mo en octets
+
+    return file.size <= maxFileSize;
+};
+
 // Fonction permettant d'ajouter des travaux à l'API
 const postWorks = async (e) => {
     e.preventDefault();
 
-    let dataForm = new FormData();
+    const file = newWorkImage.files[0];
+    const title = newWorkTitle.value;
+    const category = newWorkCategory.value;
 
-    dataForm.append('image', newWorkImage.files[0]);
-    dataForm.append('title', newWorkTitle.value);
-    dataForm.append('category', newWorkCategory.value);
-
-    console.log(Array.from(dataForm));
-
-    if (newWorkImage.files[0] && newWorkTitle.value && newWorkCategory.value){
-        try {
-            const response = await fetch(PATH_API + PATH_WORKS, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Authorization': `Bearer ${userLogInToken.token}`
-                },
-                body: dataForm,
-            });
-            alert("Vous avez ajouté une photo");
-            refreshWorks();
-            showFirstModalPage();
-        } catch(error) {
-            console.log(error);
-        }
-    } else{
-        alert("Vérifiez votre saisie");
+    if (!file) {
+        alert('Veuillez choisir une photo');
         return;
-    };
+    }
+
+    if (!title || !category) {
+        alert('Veuillez remplir tous les champs');
+        return;
+    }
+
+    const dataForm = new FormData();
+    dataForm.append('image', file);
+    dataForm.append('title', title);
+    dataForm.append('category', category);
+
+    try {
+        const response = await fetch(PATH_API + PATH_WORKS, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Authorization': `Bearer ${userLogInToken.token}`
+            },
+            body: dataForm,
+        });
+
+        alert('Vous avez ajouté une photo');
+        refreshWorks();
+        showFirstModalPage();
+    } catch(error) {
+        console.log(error);
+    }
 };
-
-// Envoi d'un nouvel travail à l'API lors de la soumission du formulaire
-addWorkForm.addEventListener('submit', postWorks); 
-
-
 
 // Prévisualisation de l'image à télécharger
 let outputImagePreview = document.getElementById('output-image');
 const photoPreview = function(e) {
-    outputImagePreview.src = URL.createObjectURL(e.target.files[0]);
+    const file = e.target.files[0];
+    const outputImagePreview = document.getElementById('output-image');
+
+    if (!file) {
+        outputImagePreview.style.display = 'none';
+        return;
+    }
+
+    if (!validateFileType(file)) {
+        alert('Veuillez choisir une photo .jpg ou .png');
+        outputImagePreview.style.display = 'none';
+        return;
+    }
+
+    if (!validateFileSize(file)) {
+        alert('La taille de la photo ne doit pas dépasser 4 Mo');
+        outputImagePreview.style.display = 'none';
+        return;
+    }
+
+    outputImagePreview.src = URL.createObjectURL(file);
     outputImagePreview.onload = function() {
         URL.revokeObjectURL(outputImagePreview.src);
     };
+    outputImagePreview.style.display = null;
 };
+
 newWorkImage.addEventListener('change', (e) => {
     photoPreview(e);
-    outputImagePreview.style.display = null;
 });
+
 
 // Réinitialisation du formulaire d'ajout de travaux
 const resetForm = function() {
@@ -524,6 +566,9 @@ const resetForm = function() {
     outputImagePreview.style.display = 'none';
     newWorkCategory.value = "";
 };
+
+// Envoi d'un nouvel travail à l'API lors de la soumission du formulaire
+addWorkForm.addEventListener('submit', postWorks); 
 
 
 
