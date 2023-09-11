@@ -1,6 +1,6 @@
 # P3-Architecte-Denys-Koshevko
 
-Projet 3 de la formation "Développeur Web" de chez Openclassrooms 
+Projet 3 de la formation "Développeur Web" de chez Openclassrooms.
 
 - Intégration à partir d'une maquette de la page d'authentification.
 
